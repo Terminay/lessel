@@ -1,0 +1,15 @@
+{
+  "name": "@lessel/listener-slack",
+  "version": "0.1.0",
+  "description": "Slack listener for lessel — ingests messages from Slack",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@lessel/core": "^0.1.0",
+    "@slack/bolt": "^3.18.0"
+  }
+}

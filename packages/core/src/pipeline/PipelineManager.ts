@@ -2,6 +2,7 @@ import { EventEmitter } from 'events';
 import { IListener } from '../listener/IListener';
 import { Store } from '../store/Store';
 import { PluginLoader } from '../plugin/PluginLoader';
+import { SenderLoader } from '../sender/SenderLoader';
 import { Schema, MessageEvent, StoredMessage, PluginContext, LesselPlugin } from '../types';
 
 /**
@@ -12,6 +13,7 @@ export class PipelineManager extends EventEmitter {
   private store: Store;
   private listenerMap: Map<string, IListener> = new Map();
   private pluginLoader: PluginLoader;
+  private senderLoader: SenderLoader;
   private active: boolean = false;
   private startTime: number = Date.now();
 
@@ -19,6 +21,7 @@ export class PipelineManager extends EventEmitter {
     super();
     this.store = store;
     this.pluginLoader = new PluginLoader(store);
+    this.senderLoader = new SenderLoader();
   }
 
   getPluginLoader(): PluginLoader {
@@ -69,10 +72,13 @@ export class PipelineManager extends EventEmitter {
   /**
    * Start the pipeline — starts all registered listeners and plugins.
    */
-  async start(): Promise<void> {
+  async start(config: Record<string, unknown> = {}): Promise<void> {
     if (this.active) return;
     this.active = true;
     this.startTime = Date.now();
+
+    // Load senders
+    const send = await this.senderLoader.load(config);
 
     // Start all plugins
     const ctx: PluginContext = {
@@ -81,6 +87,7 @@ export class PipelineManager extends EventEmitter {
         const prefix = level === 'error' ? '[error]' : level === 'warn' ? '[warn]' : '[info]';
         console.log(`${prefix} [plugin] ${msg}`, data || '');
       },
+      send,
       pipeline: { name: 'lessel', uptime: 0 },
     };
     await this.pluginLoader.startAll(ctx);
@@ -165,6 +172,7 @@ export class PipelineManager extends EventEmitter {
             const prefix = level === 'error' ? '[error]' : level === 'warn' ? '[warn]' : '[info]';
             console.log(`${prefix} [plugin] ${msg}`, data || '');
           },
+          send: async () => {},
           pipeline: {
             name: 'lessel',
             uptime: Math.floor((Date.now() - this.startTime) / 1000),

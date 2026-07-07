@@ -36,6 +36,11 @@
   "workspaces": [
     "packages/core",
     "packages/listener-discord",
+    "packages/listener-slack",
+    "packages/listener-whatsapp",
+    "packages/sender-discord",
+    "packages/sender-slack",
+    "packages/sender-whatsapp",
     "packages/cli",
     "packages/plugin-logger"
   ],

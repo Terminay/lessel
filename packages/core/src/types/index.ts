@@ -110,11 +110,17 @@ export interface LesselConfig {
   apiKeys: ApiKeyInput[];
   /** Plugin npm packages or local paths to load */
   plugins?: string[];
+  /** Sender configs */
+  senders?: {
+    discord?: Record<string, unknown>;
+    slack?: Record<string, unknown>;
+    whatsapp?: Record<string, unknown>;
+  };
   /** Listener-specific settings */
   listeners: {
     discord?: DiscordListenerConfig;
-    whatsapp?: Record<string, unknown>;    // future
-    slack?: Record<string, unknown>;      // future
+    whatsapp?: Record<string, unknown>;
+    slack?: Record<string, unknown>;
   };
 }
 
@@ -153,8 +159,8 @@ export interface PluginContext {
   store: import('../store/Store').Store;
   /** Log a message */
   log: (level: 'info' | 'warn' | 'error', msg: string, data?: Record<string, unknown>) => void;
-  /** Send a message via a sender (future) */
-  send?: (platform: Platform, target: string, content: string) => Promise<void>;
+  /** Send a message via a sender */
+  send: (platform: Platform, target: string, content: string) => Promise<void>;
   /** Pipeline metadata */
   pipeline: {
     name: string;

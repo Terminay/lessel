@@ -1,0 +1,15 @@
+{
+  "name": "@lessel/sender-slack",
+  "version": "0.1.0",
+  "description": "Slack sender for lessel — sends messages via Slack Web API",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@lessel/core": "^0.1.0",
+    "@slack/web-api": "^6.12.0"
+  }
+}

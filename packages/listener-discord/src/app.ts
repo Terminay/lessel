@@ -31,9 +31,10 @@ async function main() {
   // ── 2. Seed default schemas, API keys & plugins from config ──
   const configPath = process.env.LESSEL_CONFIG || path.join(process.cwd(), 'lessel.config.json');
   let configPlugins: string[] = [];
+  let config: Record<string, unknown> = {};
   try {
     const raw = fs.readFileSync(configPath, 'utf-8');
-    const config = JSON.parse(raw);
+    config = JSON.parse(raw) as any;
     if (config.schemas) {
       for (const schema of config.schemas) {
         store.saveSchema(schema);
@@ -53,7 +54,7 @@ async function main() {
     }
     // Read plugins list
     if (config.plugins) {
-      configPlugins = config.plugins;
+      configPlugins = config.plugins as string[];
     }
   } catch (err) {
     console.log(`[lessel] No lessel.config.json found, using defaults (${(err as Error).message})`);
@@ -89,7 +90,7 @@ async function main() {
   }
 
   // ── 5. Start Pipeline ────────────────────────────────────────
-  await pipeline.start();
+  await pipeline.start(config);
 
   // ── 6. API Server ────────────────────────────────────────────
   const apiPort = parseInt(process.env.LESSEL_API_PORT || '3100', 10);
