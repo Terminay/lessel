@@ -39,6 +39,7 @@ nav:
   - Guides:
       - Getting Started: guides/getting-started.md
       - Your First Plugin: guides/your-first-plugin.md
+      - Consuming the REST API: guides/consuming-the-api.md
       - Understanding Schemas: guides/schemas.md
       - Configuration: guides/configuration.md
       - CLI Reference: guides/cli.md
