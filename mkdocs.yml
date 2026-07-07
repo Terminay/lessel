@@ -1,0 +1,45 @@
+site_name: lessel
+site_description: lessel — message pipeline framework. Listen, Execute, Send.
+site_url: https://terminay.github.io/lessel/
+repo_url: https://github.com/Terminay/lessel
+repo_name: Terminay/lessel
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+
+markdown_extensions:
+  - admonition
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.details
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - Guides:
+      - Getting Started: guides/getting-started.md
+      - Your First Plugin: guides/your-first-plugin.md
+      - Understanding Schemas: guides/schemas.md
+      - Configuration: guides/configuration.md
+      - CLI Reference: guides/cli.md
+  - API Reference: api-reference.md

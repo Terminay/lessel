@@ -25,6 +25,13 @@ jobs:
           node-version: 22
           cache: npm
 
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install MkDocs
+        run: pip install mkdocs-material
+
       - run: npm ci
 
       - name: Build packages
@@ -36,10 +43,16 @@ jobs:
       - name: Generate JSDoc for plugin-logger
         run: npx jsdoc packages/plugin-logger/index.js -d docs/api/plugin-logger
 
+      - name: Build MkDocs site
+        run: mkdocs build --strict
+
+      - name: Copy API docs into site
+        run: cp -r docs/api site/api
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: docs
+          path: site
 
   deploy:
     needs: build
