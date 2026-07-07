@@ -1,4 +1,10 @@
-# lessel
+![GitHub Repo Banner](https://ghrb.waren.build/banner?header=lessel&subheader=By+Tanay+Mishra&bg=013B84-016EEA&color=FFFFFF&headerfont=JetBrains+Mono&subheaderfont=Fira+Code&watermarkpos=bottom-right)
+<!-- Created with GitHub Repo Banner by Waren Gonzaga: https://ghrb.waren.build -->
+
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+![Node.js >=18](https://img.shields.io/badge/node-%3E%3D18-brightgreen)
+![npm](https://img.shields.io/npm/v/@lessel/core?label=%40lessel%2Fcore)
+![GitHub issues](https://img.shields.io/github/issues/Terminay/lessel)
 
 **lessel** (from "vessel") is a general-purpose, open-source message pipeline framework. It connects to platforms like **Discord**, **WhatsApp**, and **Slack**, listens for messages that match your rules, stores them, and exposes them through a REST API for your own executers (plugins) to process.
 
@@ -13,6 +19,7 @@
 - [API Endpoints](#api-endpoints)
 - [Plugins](#plugins)
 - [Project Structure](#project-structure)
+- [Documentation](#documentation)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -49,8 +56,7 @@ flowchart LR
     end
 
     subgraph Plugins
-        PL1[plugin-logger]
-        PL2[plugin-your-code]
+        PL1[plugin]
     end
 
     D --> L
@@ -60,7 +66,6 @@ flowchart LR
     P --> ST
     P --> PL
     PL --> PL1
-    PL --> PL2
     A --> ST
 ```
 
@@ -143,7 +148,7 @@ npm run build
 npm start
 ```
 
-lessel will start the Discord listener and the API server at `http://localhost:3100`.
+Lessel will start the Discord listener and the API server at `http://localhost:3100`.
 
 ---
 
@@ -162,7 +167,7 @@ lessel will start the Discord listener and the API server at `http://localhost:3
 
 All protected endpoints require a `Bearer` token:
 ```
-Authorization: Bearer lsl_<your_api_key>
+Authorisation: Bearer lsl_<your_api_key>
 ```
 
 ---
@@ -208,6 +213,10 @@ packages/
   cli/               # @lessel/cli (npx @lessel/cli init/start/plugin)
   sender-whatsapp/   # @lessel/sender-whatsapp (future)
 ```
+
+## Documentation
+
+The Lessel docs are hosted on GitHub Pages itself; go [here](https://terminay.github.io/lessel) to visit the docs.
 
 ---
 
