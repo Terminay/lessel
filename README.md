@@ -2,18 +2,21 @@
 
 **lessel** (from "vessel") is a general-purpose, open-source message pipeline framework. It connects to platforms like **Discord**, **WhatsApp**, and **Slack**, listens for messages that match your rules, stores them, and exposes them through a REST API for your own executers (plugins) to process.
 
-```
-         ┌──────────────────────────────────────┐
-         │               lessel                  │
-         │  ┌──────────┐       ┌──────────┐     │
-Platform──▶│ Listener  │──────▶│   API    │─────▶─── Plugin (your code)
-         │  └──────────┘       └──────────┘     │
-         │                      (REST/WS)       │
-         │  ┌──────────────────────────────┐    │
-         │  │        SQLite Store          │    │
-         │  └──────────────────────────────┘    │
-         └──────────────────────────────────────┘
-```
+---
+
+## Table of Contents
+
+- [Features](#features)
+- [Architecture](#architecture)
+- [Install](#install-via-npm-no-clone-needed)
+- [Quick Start](#quick-start-from-source)
+- [API Endpoints](#api-endpoints)
+- [Plugins](#plugins)
+- [Project Structure](#project-structure)
+- [Contributing](#contributing)
+- [License](#license)
+
+---
 
 ## Features
 
@@ -23,6 +26,51 @@ Platform──▶│ Listener  │──────▶│   API    │───
 - **API Key authentication** — Secure REST API for your external executers.
 - **Plugin system** — Install `@lessel/plugin-*` packages that run inside the pipeline. No external hosting.
 - **Extensible** — Build your own listeners, senders, and plugins via interfaces.
+
+---
+
+## Architecture
+
+```mermaid
+flowchart LR
+    subgraph Platform
+        D[Discord]
+        W[WhatsApp]
+        S[Slack]
+    end
+
+    subgraph lessel
+        direction TB
+        L[Listener]
+        P[Pipeline]
+        A[API Server]
+        ST[(SQLite Store)]
+        PL[Plugin Loader]
+    end
+
+    subgraph Plugins
+        PL1[plugin-logger]
+        PL2[plugin-your-code]
+    end
+
+    D --> L
+    W --> L
+    S --> L
+    L --> P
+    P --> ST
+    P --> PL
+    PL --> PL1
+    PL --> PL2
+    A --> ST
+```
+
+### LES Framework
+
+- **Listener** — Connects to a platform (Discord, WhatsApp, etc.) and ingests messages as `MessageEvent` objects.
+- **Executer (Plugin)** — Code that runs inside the pipeline when a message matches a schema. Could be an AI bot, a logging system, a notification service, etc.
+- **Sender** — *(Future)* Sends processed data back to platforms (e.g., post to WhatsApp).
+
+---
 
 ## Install via npm (no clone needed)
 
@@ -39,6 +87,8 @@ Or install as library dependencies:
 ```bash
 npm install @lessel/core @lessel/listener-discord @lessel/cli
 ```
+
+---
 
 ## Quick Start (from source)
 
@@ -95,7 +145,9 @@ npm start
 
 lessel will start the Discord listener and the API server at `http://localhost:3100`.
 
-### API Endpoints
+---
+
+## API Endpoints
 
 | Endpoint | Auth | Description |
 |---|---|---|
@@ -112,6 +164,8 @@ All protected endpoints require a `Bearer` token:
 ```
 Authorization: Bearer lsl_<your_api_key>
 ```
+
+---
 
 ## Plugins
 
@@ -137,42 +191,38 @@ Register in `lessel.config.json`:
 
 Or install published plugins: `npx @lessel/cli plugin add @lessel/plugin-logger`
 
-## Architecture
+---
 
-### LES Framework
-
-- **Listener** — Connects to a platform (Discord, WhatsApp, etc.) and ingests messages as `MessageEvent` objects.
-- **Executer (Plugin)** — Code that runs inside the pipeline when a message matches a schema. Could be an AI bot, a logging system, a notification service, etc.
-- **Sender** — _(Future)_ Sends processed data back to platforms (e.g., post to WhatsApp).
-
-### Project Structure
+## Project Structure
 
 ```
 packages/
-├── core/              # @lessel/core
-│   ├── listener/      # IListener interface
-│   ├── api/           # REST API server
-│   ├── store/         # SQLite persistence
-│   ├── pipeline/      # Pipeline orchestrator
-│   └── plugin/        # Plugin loader
-├── listener-discord/  # @lessel/listener-discord
-├── plugin-logger/     # @lessel/plugin-logger (example)
-├── cli/               # @lessel/cli (npx @lessel/cli init/start/plugin)
-└── sender-whatsapp/   # @lessel/sender-whatsapp (future)
+  core/              # @lessel/core
+    listener/        # IListener interface
+    api/             # REST API server
+    store/           # SQLite persistence
+    pipeline/        # Pipeline orchestrator
+    plugin/          # Plugin loader
+  listener-discord/  # @lessel/listener-discord
+  plugin-logger/     # @lessel/plugin-logger (example)
+  cli/               # @lessel/cli (npx @lessel/cli init/start/plugin)
+  sender-whatsapp/   # @lessel/sender-whatsapp (future)
 ```
 
-## Roadmap
+---
 
-- [x] Core LES framework with SQLite store
-- [x] Discord listener
-- [x] REST API with API key auth
-- [x] Plugin system (runs inside the pipeline)
-- [x] `@lessel/cli` for zero-clone setup
-- [ ] WebSocket streaming for real-time executer integration
-- [ ] Web dashboard (React)
-- [ ] WhatsApp listener/sender
-- [ ] Slack listener
-- [ ] Docker compose for production deployment
+## Contributing
+
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details on:
+
+- Development setup
+- Coding guidelines
+- Pull request process
+- Documentation generation
+
+Also review the [Code of Conduct](CODE_OF_CONDUCT.md) and [Security Policy](SECURITY.md).
+
+---
 
 ## License
 

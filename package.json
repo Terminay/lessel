@@ -16,13 +16,21 @@
     "build": "npm run build --workspaces",
     "clean": "npm run clean --workspaces",
     "start": "node packages/listener-discord/dist/app.js",
-    "init": "node packages/cli/bin/lessel.js init"
+    "init": "node packages/cli/bin/lessel.js init",
+    "docs": "npx typedoc && npx jsdoc packages/plugin-logger/index.js -d docs/api/plugin-logger"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Byte-ne/listener-bot.git"
   },
-  "keywords": ["discord", "whatsapp", "slack", "message-pipeline", "bot-framework", "lessel"],
+  "keywords": [
+    "discord",
+    "whatsapp",
+    "slack",
+    "message-pipeline",
+    "bot-framework",
+    "lessel"
+  ],
   "author": "",
   "license": "MIT",
   "publishConfig": {
@@ -32,9 +40,13 @@
     "node": ">=18.0.0"
   },
   "dependencies": {
+    "@lessel/cli": "^0.1.0",
     "@lessel/core": "^0.1.0",
     "@lessel/listener-discord": "^0.1.0",
-    "@lessel/plugin-logger": "^0.1.0",
-    "@lessel/cli": "^0.1.0"
+    "@lessel/plugin-logger": "^0.1.0"
+  },
+  "devDependencies": {
+    "jsdoc": "^4.0.5",
+    "typedoc": "^0.28.20"
   }
 }
