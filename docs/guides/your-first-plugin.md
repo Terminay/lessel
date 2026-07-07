@@ -114,4 +114,4 @@ npx @lessel/cli plugin add @lessel/plugin-logger
 ## Next Steps
 
 - [Understanding Schemas](schemas.md) — Deep dive into filtering
-- [API Reference](api-reference.md) — Full type definitions
+- [API Reference](../api-reference.md) — Full type definitions

@@ -87,4 +87,4 @@ Or define them statically in config:
 
 - [CLI Reference](cli.md) — All CLI commands
 - [Getting Started](getting-started.md) — First run walkthrough
-- [API Reference](api-reference.md) — `LesselConfig` type
+- [API Reference](../api-reference.md) — `LesselConfig` type

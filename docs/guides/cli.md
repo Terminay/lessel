@@ -69,4 +69,4 @@ npx @lessel/cli start
 
 - [Getting Started](getting-started.md) — End-to-end walkthrough
 - [Your First Plugin](your-first-plugin.md) — Writing plugins
-- [API Reference](api-reference.md) — Programmatic API
+- [API Reference](../api-reference.md) — Programmatic API

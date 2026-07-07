@@ -96,4 +96,4 @@ When a plugin declares `schemas`, lessel saves them to the SQLite store automati
 
 - [Your First Plugin](your-first-plugin.md) — Use schemas in a plugin
 - [Configuration](configuration.md) — Full config reference
-- [API Reference](api-reference.md) — `Schema` type definition
+- [API Reference](../api-reference.md) — `Schema` type definition
