@@ -45,12 +45,6 @@
   "engines": {
     "node": ">=18.0.0"
   },
-  "dependencies": {
-    "@lessel/cli": "^0.1.0",
-    "@lessel/core": "^0.1.0",
-    "@lessel/listener-discord": "^0.1.0",
-    "@lessel/plugin-logger": "^0.1.0"
-  },
   "devDependencies": {
     "jsdoc": "^4.0.5",
     "typedoc": "^0.28.20"
