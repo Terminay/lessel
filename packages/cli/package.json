@@ -1,0 +1,38 @@
+{
+  "name": "@lessel/cli",
+  "version": "0.1.0",
+  "description": "lessel command-line interface — scaffold and run lessel pipelines",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "lessel": "./bin/lessel.js"
+  },
+  "files": ["dist", "bin"],
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Byte-ne/listener-bot.git",
+    "directory": "packages/cli"
+  },
+  "keywords": ["lessel", "cli", "message-pipeline", "discord"],
+  "author": "",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@lessel/core": "^0.1.0",
+    "@lessel/listener-discord": "^0.1.0",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "typescript": "^5.3.3"
+  }
+}

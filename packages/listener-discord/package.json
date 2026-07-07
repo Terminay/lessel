@@ -1,0 +1,37 @@
+{
+  "name": "@lessel/listener-discord",
+  "version": "0.1.0",
+  "description": "lessel Discord listener — ingests messages from Discord servers",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/index.js",
+    "clean": "rm -rf dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Byte-ne/listener-bot.git",
+    "directory": "packages/listener-discord"
+  },
+  "keywords": ["discord", "lessel", "message-listener", "bot"],
+  "author": "",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@lessel/core": "^0.1.0",
+    "discord.js": "^14.14.1",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "typescript": "^5.3.3"
+  }
+}

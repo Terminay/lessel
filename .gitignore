@@ -1,17 +1,52 @@
-/.firebaserc
-/.gradle
-/.idea
-/.vscode
-/app
-/build
-/build.gradle.kts
-/firebase.json
-/functions
-/gradle
-/gradle.properties
-/java_pid24784.hprof
-/local.properties
-/service-account.json
-/settings.gradle.kts
-/setup_guide.md
-/testing_guide.md
+# ── lessel .gitignore ─────────────────────────────────────────────
+
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build output
+dist/
+build/
+
+# Test directory (local test configs & keys may end up here)
+test/
+
+# Database
+*.db
+*.db-wal
+*.db-shm
+data/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Firebase (legacy)
+service-account.json
+.firebaserc
+firebase.json
+
+# Gradle (legacy)
+.gradle/
+build.gradle.kts
+gradle/
+gradle.properties
+settings.gradle.kts
+local.properties
+*.hprof

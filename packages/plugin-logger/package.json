@@ -1,0 +1,28 @@
+{
+  "name": "@lessel/plugin-logger",
+  "version": "0.1.0",
+  "description": "lessel plugin that logs every captured message via the configured schemas",
+  "main": "index.js",
+  "files": ["index.js"],
+  "scripts": {
+    "build": "echo \"no build step for plugin-logger\"",
+    "clean": "echo \"nothing to clean\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Byte-ne/listener-bot.git",
+    "directory": "packages/plugin-logger"
+  },
+  "keywords": ["lessel", "lessel-plugin", "logger", "message-logging"],
+  "author": "",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "peerDependencies": {
+    "@lessel/core": "^0.1.0"
+  }
+}
