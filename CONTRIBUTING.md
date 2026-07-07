@@ -22,12 +22,12 @@ This project and everyone participating in it is governed by the [Code of Conduc
 1. Fork the repository.
 2. Clone your fork:
    ```bash
-   git clone https://github.com/your-username/listener-bot.git
-   cd listener-bot
+   git clone https://github.com/your-username/lessel.git
+   cd lessel
    ```
 3. Add the upstream remote:
    ```bash
-   git remote add upstream https://github.com/Byte-ne/listener-bot.git
+   git remote add upstream https://github.com/Terminay/lessel.git
    ```
 
 ## Development Setup
@@ -124,4 +124,4 @@ The output goes to the `docs/` folder and is deployed to GitHub Pages via CI.
 
 ## Questions?
 
-Open a [Discussion](https://github.com/Byte-ne/listener-bot/discussions) or file an [Issue](https://github.com/Byte-ne/listener-bot/issues/new/choose).
+Open a [Discussion](https://github.com/Terminay/lessel/discussions) or file an [Issue](https://github.com/Terminay/lessel/issues/new/choose).

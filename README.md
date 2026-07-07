@@ -100,7 +100,7 @@ npm install @lessel/core @lessel/listener-discord @lessel/cli
 ### Installation
 
 ```bash
-git clone https://github.com/Byte-ne/listener-bot.git
+git clone https://github.com/Terminay/lessel.git
 cd listener-bot
 npm install
 ```

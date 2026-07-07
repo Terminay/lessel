@@ -14,7 +14,7 @@ If you discover a security vulnerability in lessel, please do **not** open a pub
 
 Instead, send a private report via one of these methods:
 
-1. **GitHub Security Advisories**: Navigate to the repository's [Security tab](https://github.com/Byte-ne/listener-bot/security) and click "Report a vulnerability".
+1. **GitHub Security Advisories**: Navigate to the repository's [Security tab](https://github.com/Terminay/lessel/security) and click "Report a vulnerability".
 2. **Email**: [INSERT EMAIL ADDRESS]
 
 We will acknowledge receipt within 48 hours and provide an estimated timeline for a fix.
@@ -39,4 +39,4 @@ We ask that you keep the vulnerability confidential until a patch is released.
 
 ## Scope
 
-This policy applies to all `@lessel/*` packages and their source code hosted in the [Byte-ne/listener-bot](https://github.com/Byte-ne/listener-bot) repository. It does not apply to third-party dependencies.
+This policy applies to all `@lessel/*` packages and their source code hosted in the [Terminay/lessel](https://github.com/Terminay/lessel) repository. It does not apply to third-party dependencies.

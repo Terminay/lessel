@@ -12,7 +12,7 @@
 <h1>Interface LesselConfig</h1></div>
 <div class="tsd-signature"><span class="tsd-signature-keyword">interface</span> <span class="tsd-kind-interface">LesselConfig</span> <span class="tsd-signature-symbol">{</span><br/>    <a class="tsd-kind-property" href="#apikeys">apiKeys</a><span class="tsd-signature-symbol">:</span> <a href="ApiKeyInput.html" class="tsd-signature-type tsd-kind-interface">ApiKeyInput</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">;</span><br/>    <a class="tsd-kind-property" href="#listeners">listeners</a><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{</span><br/>        <span class="tsd-kind-property">discord</span><span class="tsd-signature-symbol">?:</span> <a href="DiscordListenerConfig.html" class="tsd-signature-type tsd-kind-interface">DiscordListenerConfig</a><span class="tsd-signature-symbol">;</span><br/>        <span class="tsd-kind-property">slack</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">,</span> <span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">;</span><br/>        <span class="tsd-kind-property">whatsapp</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">,</span> <span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">;</span><br/>    <span class="tsd-signature-symbol">}</span><span class="tsd-signature-symbol">;</span><br/>    <a class="tsd-kind-property" href="#mastersecret">masterSecret</a><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">;</span><br/>    <a class="tsd-kind-property" href="#plugins">plugins</a><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">;</span><br/>    <a class="tsd-kind-property" href="#port">port</a><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">;</span><br/>    <a class="tsd-kind-property" href="#schemas">schemas</a><span class="tsd-signature-symbol">:</span> <a href="Schema.html" class="tsd-signature-type tsd-kind-interface">Schema</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">;</span><br/><span class="tsd-signature-symbol">}</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Byte-ne/listener-bot/blob/fdeb4f748e508709ec46e409524c15ecae2c6064/packages/core/src/types/index.ts#L102">packages/core/src/types/index.ts:102</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/Terminay/lessel/blob/54de0836d72ea2a5b47db3a54236d173c4ef55f8/packages/core/src/types/index.ts#L102">packages/core/src/types/index.ts:102</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-accordion" open><summary class="tsd-accordion-summary tsd-index-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
@@ -36,42 +36,42 @@
 <div class="tsd-comment tsd-typography"><p>API keys (plaintext in config, hashed at runtime)</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Byte-ne/listener-bot/blob/fdeb4f748e508709ec46e409524c15ecae2c6064/packages/core/src/types/index.ts#L110">packages/core/src/types/index.ts:110</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/Terminay/lessel/blob/54de0836d72ea2a5b47db3a54236d173c4ef55f8/packages/core/src/types/index.ts#L110">packages/core/src/types/index.ts:110</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="listeners"><span>listeners</span><a href="#listeners" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">listeners</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{</span><br/>    <span class="tsd-kind-property">discord</span><span class="tsd-signature-symbol">?:</span> <a href="DiscordListenerConfig.html" class="tsd-signature-type tsd-kind-interface">DiscordListenerConfig</a><span class="tsd-signature-symbol">;</span><br/>    <span class="tsd-kind-property">slack</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">,</span> <span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">;</span><br/>    <span class="tsd-kind-property">whatsapp</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">,</span> <span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">;</span><br/><span class="tsd-signature-symbol">}</span></div>
 <div class="tsd-comment tsd-typography"><p>Listener-specific settings</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Byte-ne/listener-bot/blob/fdeb4f748e508709ec46e409524c15ecae2c6064/packages/core/src/types/index.ts#L114">packages/core/src/types/index.ts:114</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/Terminay/lessel/blob/54de0836d72ea2a5b47db3a54236d173c4ef55f8/packages/core/src/types/index.ts#L114">packages/core/src/types/index.ts:114</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="mastersecret"><code class="tsd-tag">Optional</code><span>master<wbr/>Secret</span><a href="#mastersecret" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">masterSecret</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">string</span></div>
 <div class="tsd-comment tsd-typography"><p>Secret used to derive API keys</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Byte-ne/listener-bot/blob/fdeb4f748e508709ec46e409524c15ecae2c6064/packages/core/src/types/index.ts#L106">packages/core/src/types/index.ts:106</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/Terminay/lessel/blob/54de0836d72ea2a5b47db3a54236d173c4ef55f8/packages/core/src/types/index.ts#L106">packages/core/src/types/index.ts:106</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="plugins"><code class="tsd-tag">Optional</code><span>plugins</span><a href="#plugins" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">plugins</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
 <div class="tsd-comment tsd-typography"><p>Plugin npm packages or local paths to load</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Byte-ne/listener-bot/blob/fdeb4f748e508709ec46e409524c15ecae2c6064/packages/core/src/types/index.ts#L112">packages/core/src/types/index.ts:112</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/Terminay/lessel/blob/54de0836d72ea2a5b47db3a54236d173c4ef55f8/packages/core/src/types/index.ts#L112">packages/core/src/types/index.ts:112</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="port"><span>port</span><a href="#port" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">port</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 <div class="tsd-comment tsd-typography"><p>API server port</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Byte-ne/listener-bot/blob/fdeb4f748e508709ec46e409524c15ecae2c6064/packages/core/src/types/index.ts#L104">packages/core/src/types/index.ts:104</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/Terminay/lessel/blob/54de0836d72ea2a5b47db3a54236d173c4ef55f8/packages/core/src/types/index.ts#L104">packages/core/src/types/index.ts:104</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="schemas"><span>schemas</span><a href="#schemas" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">schemas</span><span class="tsd-signature-symbol">:</span> <a href="Schema.html" class="tsd-signature-type tsd-kind-interface">Schema</a><span class="tsd-signature-symbol">[]</span></div>
 <div class="tsd-comment tsd-typography"><p>Registered schemas</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Byte-ne/listener-bot/blob/fdeb4f748e508709ec46e409524c15ecae2c6064/packages/core/src/types/index.ts#L108">packages/core/src/types/index.ts:108</a></li></ul></aside></section></section></details></div>
+<li>Defined in <a href="https://github.com/Terminay/lessel/blob/54de0836d72ea2a5b47db3a54236d173c4ef55f8/packages/core/src/types/index.ts#L108">packages/core/src/types/index.ts:108</a></li></ul></aside></section></section></details></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">

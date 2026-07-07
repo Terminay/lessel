@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Byte-ne/listener-bot.git",
+    "url": "git+https://github.com/Terminay/lessel.git",
     "directory": "packages/plugin-logger"
   },
   "keywords": ["lessel", "lessel-plugin", "logger", "message-logging"],
