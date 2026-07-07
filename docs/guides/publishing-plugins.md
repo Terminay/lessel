@@ -203,4 +203,4 @@ Or manually in `lessel.config.json`:
 
 - [Your First Plugin](your-first-plugin.md) — Writing the plugin itself
 - [Configuration](configuration.md) — Plugin config options
-- [Contributing](../CONTRIBUTING.md) — Submit your plugin to the lessel org
+- [Contributing](https://github.com/Terminay/lessel/blob/main/CONTRIBUTING.md) — Submit your plugin to the lessel org
