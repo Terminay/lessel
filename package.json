@@ -33,6 +33,12 @@
   ],
   "author": "",
   "license": "MIT",
+  "workspaces": [
+    "packages/core",
+    "packages/listener-discord",
+    "packages/cli",
+    "packages/plugin-logger"
+  ],
   "publishConfig": {
     "access": "public"
   },
