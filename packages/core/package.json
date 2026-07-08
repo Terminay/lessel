@@ -1,10 +1,12 @@
 {
   "name": "@lessel/core",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "lessel core framework — Listener, Executer, Sender pipeline engine",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsc",
     "clean": "rm -rf dist"
@@ -14,7 +16,14 @@
     "url": "git+https://github.com/Terminay/lessel.git",
     "directory": "packages/core"
   },
-  "keywords": ["discord", "whatsapp", "slack", "message-pipeline", "bot-framework", "lessel"],
+  "keywords": [
+    "discord",
+    "whatsapp",
+    "slack",
+    "message-pipeline",
+    "bot-framework",
+    "lessel"
+  ],
   "author": "",
   "license": "MIT",
   "publishConfig": {

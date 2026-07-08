@@ -1,10 +1,12 @@
 {
   "name": "@lessel/listener-discord",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "lessel Discord listener — ingests messages from Discord servers",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
@@ -16,7 +18,12 @@
     "url": "git+https://github.com/Terminay/lessel.git",
     "directory": "packages/listener-discord"
   },
-  "keywords": ["discord", "lessel", "message-listener", "bot"],
+  "keywords": [
+    "discord",
+    "lessel",
+    "message-listener",
+    "bot"
+  ],
   "author": "",
   "license": "MIT",
   "publishConfig": {

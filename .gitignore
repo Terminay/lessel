@@ -54,3 +54,5 @@ gradle.properties
 settings.gradle.kts
 local.properties
 *.hprof
+
+packages/lessel

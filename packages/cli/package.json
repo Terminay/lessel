@@ -1,13 +1,16 @@
 {
   "name": "@lessel/cli",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "lessel command-line interface — scaffold and run lessel pipelines",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
     "lessel": "./bin/lessel.js"
   },
-  "files": ["dist", "bin"],
+  "files": [
+    "dist",
+    "bin"
+  ],
   "scripts": {
     "build": "tsc",
     "clean": "rm -rf dist"
@@ -17,7 +20,12 @@
     "url": "git+https://github.com/Terminay/lessel.git",
     "directory": "packages/cli"
   },
-  "keywords": ["lessel", "cli", "message-pipeline", "discord"],
+  "keywords": [
+    "lessel",
+    "cli",
+    "message-pipeline",
+    "discord"
+  ],
   "author": "",
   "license": "MIT",
   "publishConfig": {
