@@ -27,14 +27,19 @@ export class WhatsAppListener extends IListener {
     const sessionPath = (this.config.sessionPath as string) || './data/whatsapp-session';
 
     try {
-      const { default: makeWASocket } = await import('@whiskeysockets/baileys');
+      const { default: makeWASocket, useMultiFileAuthState } = await import('@whiskeysockets/baileys');
+
+      const { state, saveCreds } = await useMultiFileAuthState(sessionPath);
 
       this.client = await makeWASocket({
+        auth: state,
         browser: ['lessel', 'Firefox', '1.0.0'],
         printQRInTerminal: true,
         syncFullHistory: false,
         markOnlineOnConnect: false,
       });
+
+      this.client.ev.on('creds.update', saveCreds);
 
       this.client.ev.on('connection.update', (update: any) => {
         const { connection } = update;
