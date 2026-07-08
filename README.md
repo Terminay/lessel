@@ -170,14 +170,6 @@ Lessel will start the Discord listener and the API server at `http://localhost:3
 
 ---
 
-## Tutorial: Discord → WhatsApp
-
-Step-by-step guide to build a bot that forwards Discord messages to WhatsApp:
-
-👉 **[Read the full tutorial](docs/guides/tutorial-discord-to-whatsapp.md)**
-
----
-
 ## API Endpoints
 
 | Endpoint | Auth | Description |
