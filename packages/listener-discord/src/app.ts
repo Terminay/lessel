@@ -78,6 +78,8 @@ async function main() {
   const token = process.env.DISCORD_BOT_TOKEN;
   if (!token) {
     console.warn('[lessel] DISCORD_BOT_TOKEN not set. Discord listener disabled.');
+  } else if (token.length < 50) {
+    console.warn('[lessel] DISCORD_BOT_TOKEN appears invalid (too short). Discord listener disabled.');
   } else {
     const discordListener = new DiscordListener(token, {
       allowedChannels: process.env.DISCORD_ALLOWED_CHANNELS

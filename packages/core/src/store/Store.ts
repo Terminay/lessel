@@ -94,18 +94,30 @@ export class Store {
 
   validateApiKey(rawKey: string): ApiKey | null {
     const hash = this.hashKey(rawKey);
-    const row = this.db
-      .prepare('SELECT * FROM api_keys WHERE key_hash = ? AND enabled = 1')
-      .get(hash) as ApiKey | undefined;
+    // Fetch all enabled keys and compare in constant time
+    const rows = this.db
+      .prepare('SELECT * FROM api_keys WHERE enabled = 1')
+      .all() as Record<string, unknown>[];
 
-    if (row) {
-      // Update last used timestamp
-      this.db
-        .prepare('UPDATE api_keys SET last_used = datetime(?) WHERE id = ?')
-        .run(new Date().toISOString(), row.id);
+    for (const row of rows) {
+      const keyHash = row.key_hash as string;
+      if (this.constantTimeCompare(keyHash, hash)) {
+        // Update last used timestamp
+        this.db
+          .prepare('UPDATE api_keys SET last_used = datetime(?) WHERE id = ?')
+          .run(new Date().toISOString(), row.id);
+        return {
+          id: row.id as string,
+          key: row.key_hash as string,
+          label: row.label as string,
+          createdAt: row.created_at as string,
+          lastUsedAt: row.last_used as string | undefined,
+          enabled: (row.enabled as number) === 1,
+        };
+      }
     }
 
-    return row || null;
+    return null;
   }
 
   listApiKeys(): ApiKey[] {
@@ -122,6 +134,17 @@ export class Store {
 
   private hashKey(key: string): string {
     return crypto.createHash('sha256').update(key).digest('hex');
+  }
+
+  private constantTimeCompare(a: string, b: string): boolean {
+    try {
+      const bufA = Buffer.from(a);
+      const bufB = Buffer.from(b);
+      if (bufA.length !== bufB.length) return false;
+      return crypto.timingSafeEqual(bufA, bufB);
+    } catch {
+      return false;
+    }
   }
 
   // ── Message operations ───────────────────────────────────────────────
