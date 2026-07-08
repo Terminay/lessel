@@ -79,8 +79,9 @@ export class PipelineManager extends EventEmitter {
     this.active = true;
     this.startTime = Date.now();
 
-    // Load senders
-    this.sendFn = await this.senderLoader.load(config);
+    // Start senders
+    await this.senderLoader.startAll(config);
+    this.sendFn = this.senderLoader.getSendFn();
 
     // Start all plugins
     const ctx: PluginContext = {

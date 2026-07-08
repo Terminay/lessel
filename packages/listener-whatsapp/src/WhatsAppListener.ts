@@ -30,8 +30,10 @@ export class WhatsAppListener extends IListener {
       const { default: makeWASocket } = await import('@whiskeysockets/baileys');
 
       this.client = await makeWASocket({
-        session: { session: sessionPath },
+        browser: ['lessel', 'Firefox', '1.0.0'],
         printQRInTerminal: true,
+        syncFullHistory: false,
+        markOnlineOnConnect: false,
       });
 
       this.client.ev.on('connection.update', (update: any) => {

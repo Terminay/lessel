@@ -34,16 +34,17 @@ async function main() {
   let config: Record<string, unknown> = {};
   try {
     const raw = fs.readFileSync(configPath, 'utf-8');
-    config = JSON.parse(raw) as any;
-    if (config.schemas) {
-      for (const schema of config.schemas) {
+    const parsed = JSON.parse(raw) as any;
+    config = parsed;
+    if (parsed.schemas) {
+      for (const schema of parsed.schemas) {
         store.saveSchema(schema);
         console.log(`[lessel] Schema loaded: ${schema.name}`);
       }
     }
     // Seed API keys from config
-    if (config.apiKeys) {
-      for (const keyInput of config.apiKeys) {
+    if (parsed.apiKeys) {
+      for (const keyInput of parsed.apiKeys) {
         const existing = store.listApiKeys();
         if (!existing.find((k: any) => k.label === keyInput.label)) {
           const result = store.createApiKey(keyInput.label);
@@ -53,8 +54,8 @@ async function main() {
       }
     }
     // Read plugins list
-    if (config.plugins) {
-      configPlugins = config.plugins as string[];
+    if (parsed.plugins) {
+      configPlugins = parsed.plugins as string[];
     }
   } catch (err) {
     console.log(`[lessel] No lessel.config.json found, using defaults (${(err as Error).message})`);

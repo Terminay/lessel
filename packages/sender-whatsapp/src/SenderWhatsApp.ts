@@ -16,8 +16,10 @@ export class SenderWhatsApp implements ISender {
       const { default: makeWASocket } = await import('@whiskeysockets/baileys');
       
       this.client = await makeWASocket({
-        session: { session: sessionPath },
-        printQRInTerminal: false,
+        browser: ['lessel', 'Firefox', '1.0.0'],
+        printQRInTerminal: true,
+        syncFullHistory: false,
+        markOnlineOnConnect: false,
       });
 
       this.client.ev.on('connection.update', (update: any) => {
