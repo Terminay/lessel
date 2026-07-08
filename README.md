@@ -284,4 +284,4 @@ Also review the [Code of Conduct](CODE_OF_CONDUCT.md) and [Security Policy](SECU
 
 ## License
 
-MIT
+[MIT](LICENSE)
