@@ -3,8 +3,9 @@
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![Node.js >=18](https://img.shields.io/badge/node-%3E%3D18-brightgreen)
-![npm](https://img.shields.io/npm/v/@lessel/core?label=%40lessel%2Fcore)
+![npm](https://img.shields.io/npm/v/lessel-kit?label=lessel-kit)
 ![GitHub issues](https://img.shields.io/github/issues/Terminay/lessel)
+![GitHub stars](https://img.shields.io/github/stars/Terminay/lessel)
 
 **lessel** (from "vessel") is a general-purpose, open-source message pipeline framework. It connects to platforms like **Discord**, **WhatsApp**, and **Slack**, listens for messages that match your rules, stores them, and exposes them through a REST API for your own executers (plugins) to process.
 
@@ -15,9 +16,11 @@
 - [Features](#features)
 - [Architecture](#architecture)
 - [Install](#install-via-npm-no-clone-needed)
-- [Quick Start](#quick-start-from-source)
+- [Quick Start](#quick-start)
+- [Tutorial](#tutorial-discord--whatsapp)
 - [API Endpoints](#api-endpoints)
 - [Plugins](#plugins)
+- [Ecosystem](#ecosystem)
 - [Project Structure](#project-structure)
 - [Documentation](#documentation)
 - [Contributing](#contributing)
@@ -27,12 +30,13 @@
 
 ## Features
 
-- **Platform-agnostic** — Discord listener built-in. WhatsApp & Slack coming soon.
-- **Schema-based filtering** — Define what messages to capture using simple JSON rules.
-- **SQLite storage** — Zero-config persistence. No external database needed.
-- **API Key authentication** — Secure REST API for your external executers.
-- **Plugin system** — Install `@lessel/plugin-*` packages that run inside the pipeline. No external hosting.
-- **Extensible** — Build your own listeners, senders, and plugins via interfaces.
+- **Platform-agnostic** — Discord, WhatsApp, Slack supported out of the box
+- **Schema-based filtering** — Define what messages to capture using simple JSON rules
+- **SQLite storage** — Zero-config persistence. No external database needed
+- **API Key authentication** — Secure REST API with rate limiting and timing-safe key validation
+- **Plugin system** — Install `@lessel/plugin-*` packages that run inside the pipeline
+- **Cross-platform sends** — One plugin can send to any platform via `context.send()`
+- **Extensible** — Build your own listeners, senders, and plugins via interfaces
 
 ---
 
@@ -71,31 +75,44 @@ flowchart LR
 
 ### LES Framework
 
-- **Listener** — Connects to a platform (Discord, WhatsApp, etc.) and ingests messages as `MessageEvent` objects.
-- **Executer (Plugin)** — Code that runs inside the pipeline when a message matches a schema. Could be an AI bot, a logging system, a notification service, etc.
-- **Sender** — *(Future)* Sends processed data back to platforms (e.g., post to WhatsApp).
+- **Listener** — Connects to a platform (Discord, WhatsApp, etc.) and ingests messages as `MessageEvent` objects
+- **Executer (Plugin)** — Code that runs inside the pipeline when a message matches a schema. Could be an AI bot, a logging system, a notification service, etc
+- **Sender** — Sends processed data back to platforms (e.g., post to WhatsApp)
 
 ---
 
 ## Install via npm (no clone needed)
 
 ```bash
-# Recommended: use the CLI directly
+# Recommended: install the meta-package
+npm install lessel-kit
+```
+
+This installs:
+- `@lessel/core` — pipeline engine, store, API server
+- `@lessel/listener-discord` — Discord listener
+- `@lessel/listener-slack` — Slack listener
+- `@lessel/listener-whatsapp` — WhatsApp listener
+- `@lessel/sender-discord` — Discord sender
+- `@lessel/sender-slack` — Slack sender
+- `@lessel/sender-whatsapp` — WhatsApp sender
+- `@lessel/cli` — command-line tool
+
+**Note:** Plugins are NOT included. Install them separately:
+```bash
+npm install @lessel/plugin-logger
+```
+
+Or use the CLI directly without installing:
+```bash
 npx @lessel/cli init        # scaffolds lessel.config.json + .env
-# edit .env and set DISCORD_BOT_TOKEN
 npx @lessel/cli start       # starts the pipeline + API
 npx @lessel/cli plugin add @lessel/plugin-logger
 ```
 
-Or install as library dependencies:
-
-```bash
-npm install @lessel/core @lessel/listener-discord @lessel/cli
-```
-
 ---
 
-## Quick Start (from source)
+## Quick Start
 
 ### Prerequisites
 
@@ -106,7 +123,7 @@ npm install @lessel/core @lessel/listener-discord @lessel/cli
 
 ```bash
 git clone https://github.com/Terminay/lessel.git
-cd listener-bot
+cd lessel
 npm install
 ```
 
@@ -122,9 +139,10 @@ npm install
    DISCORD_BOT_TOKEN=your_discord_bot_token_here
    ```
 
-3. (Optional) Configure schemas/plugins in `lessel.config.json`:
+3. Create `lessel.config.json`:
    ```json
    {
+     "port": 3100,
      "schemas": [
        {
          "name": "all-messages",
@@ -137,7 +155,7 @@ npm install
          "store": true
        }
      ],
-     "plugins": []
+     "plugins": ["@lessel/plugin-logger"]
    }
    ```
 
@@ -149,6 +167,14 @@ npm start
 ```
 
 Lessel will start the Discord listener and the API server at `http://localhost:3100`.
+
+---
+
+## Tutorial: Discord → WhatsApp
+
+Step-by-step guide to build a bot that forwards Discord messages to WhatsApp:
+
+👉 **[Read the full tutorial](docs/guides/tutorial-discord-to-whatsapp.md)**
 
 ---
 
@@ -185,6 +211,7 @@ module.exports = {
     // event.payload  — extracted fields
     // context.store  — direct SQLite access
     // context.log    — logging helper
+    // context.send   — send to any platform
   }
 };
 ```
@@ -195,6 +222,23 @@ Register in `lessel.config.json`:
 ```
 
 Or install published plugins: `npx @lessel/cli plugin add @lessel/plugin-logger`
+
+---
+
+## Ecosystem
+
+| Package | npm | Description |
+|---|---|---|
+| `lessel-kit` | `npm install lessel-kit` | Meta-package with all platforms |
+| `@lessel/core` | `npm install @lessel/core` | Pipeline engine, store, API server |
+| `@lessel/listener-discord` | `npm install @lessel/listener-discord` | Discord listener |
+| `@lessel/listener-slack` | `npm install @lessel/listener-slack` | Slack listener |
+| `@lessel/listener-whatsapp` | `npm install @lessel/listener-whatsapp` | WhatsApp listener |
+| `@lessel/sender-discord` | `npm install @lessel/sender-discord` | Discord sender |
+| `@lessel/sender-slack` | `npm install @lessel/sender-slack` | Slack sender |
+| `@lessel/sender-whatsapp` | `npm install @lessel/sender-whatsapp` | WhatsApp sender |
+| `@lessel/cli` | `npm install @lessel/cli` | CLI tool |
+| `@lessel/plugin-logger` | `npm install @lessel/plugin-logger` | Example plugin |
 
 ---
 
@@ -209,14 +253,27 @@ packages/
     pipeline/        # Pipeline orchestrator
     plugin/          # Plugin loader
   listener-discord/  # @lessel/listener-discord
-  plugin-logger/     # @lessel/plugin-logger (example)
+  listener-slack/    # @lessel/listener-slack
+  listener-whatsapp/ # @lessel/listener-whatsapp
+  sender-discord/    # @lessel/sender-discord
+  sender-slack/      # @lessel/sender-slack
+  sender-whatsapp/   # @lessel/sender-whatsapp
   cli/               # @lessel/cli (npx @lessel/cli init/start/plugin)
-  sender-whatsapp/   # @lessel/sender-whatsapp (future)
+  plugin-logger/     # @lessel/plugin-logger (example)
+  lessel-kit/        # lessel-kit meta-package
 ```
+
+---
 
 ## Documentation
 
-The Lessel docs are hosted on GitHub Pages itself; go [here](https://terminay.github.io/lessel) to visit the docs.
+- [Getting Started](https://terminay.github.io/lessel/docs/guides/getting-started)
+- [Your First Plugin](https://terminay.github.io/lessel/docs/guides/your-first-plugin)
+- [Sending Messages](https://terminay.github.io/lessel/docs/guides/sending-messages)
+- [Understanding Schemas](https://terminay.github.io/lessel/docs/guides/schemas)
+- [Configuration Reference](https://terminay.github.io/lessel/docs/guides/configuration)
+- [CLI Reference](https://terminay.github.io/lessel/docs/guides/cli)
+- [API Reference](https://terminay.github.io/lessel/docs/api-reference)
 
 ---
 
