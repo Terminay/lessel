@@ -38,6 +38,7 @@ nav:
   - Home: index.md
   - Guides:
       - Getting Started: guides/getting-started.md
+      - Listeners: guides/listeners.md
       - Your First Plugin: guides/your-first-plugin.md
       - Publishing Plugins: guides/publishing-plugins.md
       - Sending Messages: guides/sending-messages.md

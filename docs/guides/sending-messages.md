@@ -11,15 +11,23 @@ module.exports = {
   async execute(event, context) {
     // Send to Discord
     await context.send('discord', '123456789', 'Hello!');
-    
+
     // Send to Slack
     await context.send('slack', 'C012345', 'Hello!');
-    
+
     // Send to WhatsApp
     await context.send('whatsapp', '+1234567890', 'Hello!');
   }
 };
 ```
+
+## Available Senders
+
+| Package | Platform | Install |
+|---------|----------|---------|
+| `@lessel/sender-discord` | Discord | `npm install @lessel/sender-discord` |
+| `@lessel/sender-slack` | Slack | `npm install @lessel/sender-slack` |
+| `@lessel/sender-whatsapp` | WhatsApp | `npm install @lessel/sender-whatsapp` |
 
 ## Sender Configuration
 
@@ -126,48 +134,9 @@ async execute(event, context) {
 | `Failed to send Slack message` | Missing `chat:write` scope | Add scope in Slack app settings |
 | `WhatsApp sender not initialized` | QR code not scanned | Scan QR on first run |
 
-## Example: Reply to Discord Message
-
-```javascript
-module.exports = {
-  name: 'replier',
-  schema: 'all-messages',
-  async execute(event, context) {
-    // Reply in the same channel
-    await context.send('discord', 
-      event.payload.channelId, 
-      `You said: ${event.payload.content}`
-    );
-  }
-};
-```
-
-## Example: Cross-Platform Forwarder
-
-```javascript
-module.exports = {
-  name: 'cross-poster',
-  schema: 'meeting-messages',
-  async execute(event, context) {
-    const content = event.payload.content;
-    
-    // If from Discord, send to Slack + WhatsApp
-    if (event.platform === 'discord') {
-      await context.send('slack', 'C012345', `[Discord] ${content}`);
-      await context.send('whatsapp', '+1234567890', `[Discord] ${content}`);
-    }
-    
-    // If from Slack, send to Discord + WhatsApp
-    if (event.platform === 'slack') {
-      await context.send('discord', '123456789', `[Slack] ${content}`);
-      await context.send('whatsapp', '+1234567890', `[Slack] ${content}`);
-    }
-  }
-};
-```
-
 ## Next Steps
 
+- [Listeners](listeners.md) — Setup platform listeners
 - [Your First Plugin](your-first-plugin.md) — Plugin basics
 - [Understanding Schemas](schemas.md) — Filter what triggers sends
 - [Consuming the REST API](consuming-the-api.md) — Fetch data from other services
