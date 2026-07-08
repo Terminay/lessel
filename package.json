@@ -1,7 +1,7 @@
 {
   "name": "lessel",
   "version": "0.1.0",
-  "description": "lessel — message pipeline framework. Listen, Execute, Send.",
+  "description": "lessel : message pipeline framework. Listen, Execute, Send.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
