@@ -27,17 +27,17 @@ export class SenderLoader {
 
       switch (platform) {
         case 'discord': {
-          const { SenderDiscord } = await import('../../sender-discord/src/SenderDiscord');
+          const { SenderDiscord } = await import('@lessel/sender-discord');
           sender = new SenderDiscord();
           break;
         }
         case 'slack': {
-          const { SenderSlack } = await import('../../sender-slack/src/SenderSlack');
+          const { SenderSlack } = await import('@lessel/sender-slack');
           sender = new SenderSlack();
           break;
         }
         case 'whatsapp': {
-          const { SenderWhatsApp } = await import('../../sender-whatsapp/src/SenderWhatsApp');
+          const { SenderWhatsApp } = await import('@lessel/sender-whatsapp');
           sender = new SenderWhatsApp();
           break;
         }

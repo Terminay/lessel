@@ -8,7 +8,7 @@ lessel is built on three core concepts:
 
 - **Listen** — Connect to platforms (Discord, WhatsApp, Slack) and capture incoming messages
 - **Execute** — Run plugins (your code) against messages that match your filters
-- **Send** — (Coming soon) Send processed results back to platforms
+- **Send** — Send processed results back to any platform (Discord, Slack, WhatsApp)
 
 ## Quick Example
 

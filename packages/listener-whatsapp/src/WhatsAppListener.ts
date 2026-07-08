@@ -10,7 +10,7 @@ export class WhatsAppListener extends IListener {
 
   private client: any = null;
   private connected: boolean = false;
-  private onMessageCallback?: (event: MessageEvent) => void;
+  private config: Record<string, unknown> = {};
 
   constructor() {
     super();
@@ -18,26 +18,20 @@ export class WhatsAppListener extends IListener {
   }
 
   configure(config: Record<string, unknown>): void {
-    // Config is applied in start() for WhatsApp
+    this.config = config;
   }
 
   async start(): Promise<void> {
     if (this.connected) return;
 
-    throw new Error('WhatsApp listener requires config. Use startWithConfig() instead.');
-  }
-
-  async startWithConfig(config: Record<string, unknown>): Promise<void> {
-    if (this.connected) return;
-
-    const sessionPath = (config.sessionPath as string) || './data/whatsapp-session';
+    const sessionPath = (this.config.sessionPath as string) || './data/whatsapp-session';
 
     try {
       const { default: makeWASocket } = await import('@whiskeysockets/baileys');
 
       this.client = await makeWASocket({
         session: { session: sessionPath },
-        printQRInTerminal: false,
+        printQRInTerminal: true,
       });
 
       this.client.ev.on('connection.update', (update: any) => {
@@ -72,9 +66,7 @@ export class WhatsAppListener extends IListener {
             timestamp: new Date().toISOString(),
           };
 
-          if (this.onMessageCallback) {
-            this.onMessageCallback(messageEvent);
-          }
+          this.emit('message', messageEvent);
         }
       });
     } catch (err) {
@@ -94,9 +86,5 @@ export class WhatsAppListener extends IListener {
 
   isConnected(): boolean {
     return this.connected;
-  }
-
-  onMessage(callback: (event: MessageEvent) => void): void {
-    this.onMessageCallback = callback;
   }
 }

@@ -72,13 +72,15 @@ export class PipelineManager extends EventEmitter {
   /**
    * Start the pipeline — starts all registered listeners and plugins.
    */
+  private sendFn: (platform: string, target: string, content: string) => Promise<void> = async () => {};
+
   async start(config: Record<string, unknown> = {}): Promise<void> {
     if (this.active) return;
     this.active = true;
     this.startTime = Date.now();
 
     // Load senders
-    const send = await this.senderLoader.load(config);
+    this.sendFn = await this.senderLoader.load(config);
 
     // Start all plugins
     const ctx: PluginContext = {
@@ -87,7 +89,7 @@ export class PipelineManager extends EventEmitter {
         const prefix = level === 'error' ? '[error]' : level === 'warn' ? '[warn]' : '[info]';
         console.log(`${prefix} [plugin] ${msg}`, data || '');
       },
-      send,
+      send: this.sendFn,
       pipeline: { name: 'lessel', uptime: 0 },
     };
     await this.pluginLoader.startAll(ctx);
@@ -118,6 +120,9 @@ export class PipelineManager extends EventEmitter {
 
     // Stop all plugins
     await this.pluginLoader.stopAll();
+
+    // Stop all senders
+    await this.senderLoader.stop();
 
     console.log('[lessel] Pipeline stopped');
     this.emit('stopped');
@@ -172,7 +177,7 @@ export class PipelineManager extends EventEmitter {
             const prefix = level === 'error' ? '[error]' : level === 'warn' ? '[warn]' : '[info]';
             console.log(`${prefix} [plugin] ${msg}`, data || '');
           },
-          send: async () => {},
+          send: this.sendFn,
           pipeline: {
             name: 'lessel',
             uptime: Math.floor((Date.now() - this.startTime) / 1000),

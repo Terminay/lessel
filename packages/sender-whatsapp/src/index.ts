@@ -1,0 +1,1 @@
+export { SenderWhatsApp } from './SenderWhatsApp';

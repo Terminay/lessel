@@ -10,7 +10,6 @@ export class SlackListener extends IListener {
 
   private app: any = null;
   private connected: boolean = false;
-  private onMessageCallback?: (event: MessageEvent) => void;
   private config: Record<string, unknown> = {};
 
   constructor() {
@@ -59,9 +58,7 @@ export class SlackListener extends IListener {
           timestamp: new Date().toISOString(),
         };
 
-        if (this.onMessageCallback) {
-          this.onMessageCallback(messageEvent);
-        }
+        this.emit('message', messageEvent);
       });
 
       await this.app.start();
@@ -83,9 +80,5 @@ export class SlackListener extends IListener {
 
   isConnected(): boolean {
     return this.connected;
-  }
-
-  onMessage(callback: (event: MessageEvent) => void): void {
-    this.onMessageCallback = callback;
   }
 }

@@ -1,0 +1,1 @@
+export { SenderSlack } from './SenderSlack';
