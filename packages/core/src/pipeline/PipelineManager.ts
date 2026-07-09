@@ -3,6 +3,7 @@ import { IListener } from '../listener/IListener';
 import { Store } from '../store/Store';
 import { PluginLoader } from '../plugin/PluginLoader';
 import { SenderLoader } from '../sender/SenderLoader';
+import { loadBuiltins } from '../builtins';
 import { Schema, MessageEvent, StoredMessage, PluginContext, LesselPlugin } from '../types';
 
 /**
@@ -79,11 +80,14 @@ export class PipelineManager extends EventEmitter {
     this.active = true;
     this.startTime = Date.now();
 
+    // ── Auto-register built-in plugins ─────────────────────────
+    loadBuiltins((plugin) => this.pluginLoader.registerPlugin(plugin));
+
     // Start senders
     await this.senderLoader.startAll(config);
     this.sendFn = this.senderLoader.getSendFn();
 
-    // Start all plugins
+    // Build plugin context with uptime tracking
     const ctx: PluginContext = {
       store: this.store,
       log: (level, msg, data) => {

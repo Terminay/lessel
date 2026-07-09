@@ -1,116 +1,118 @@
-# CLI Reference
+# Command-Line Interface (CLI)
 
-The `@lessel/cli` package provides the command-line interface for scaffolding and running lessel.
+The `@lessel/cli` package provides the `lessel` command for managing and running your lessel pipeline.
 
-## Usage
+## Installation
 
 ```bash
+# Global installation (recommended)
+npm install -g @lessel/cli
+
+# Or run directly
 npx @lessel/cli <command>
 ```
 
 ## Commands
 
-### `init`
+### `lessel start`
 
-Scaffolds a new lessel project in the current directory.
+Start the lessel pipeline.
+
+With **zero config**, lessel automatically detects platform tokens from environment variables and starts with catch-all schemas and built-in plugins:
 
 ```bash
-npx @lessel/cli init
+lessel start
+```
+
+This will:
+1. Check environment variables (`DISCORD_BOT_TOKEN`, `SLACK_BOT_TOKEN`, `WHATSAPP_PHONE`, etc.)
+2. Auto-generate config if no `lessel.config.json` exists
+3. Dynamically load listener/sender packages for detected platforms
+4. Register built-in plugins (logger, echo, webhook, rate-limiter)
+5. Start the API server
+
+You can also specify a custom config:
+
+```bash
+lessel start --config ./path/to/config.json
+```
+
+### `lessel status`
+
+Show pipeline health and configuration overview without starting the pipeline:
+
+```bash
+lessel status
+```
+
+Outputs:
+- ✅ Detected platforms from environment variables
+- ✅ Config file status
+- ✅ Database status (exists, size)
+- ✅ Schema list (or auto-creation preview)
+- ✅ Environment variable status (masked)
+- ✅ Summary
+
+### `lessel init`
+
+Scaffold a new lessel project in the current directory:
+
+```bash
+lessel init
 ```
 
 Creates:
-- `lessel.config.json` — base configuration
-- `.env` — environment variables template
+- `lessel.config.json` — your configuration with a sample Discord schema
+- `.env` — environment variable template
 
-Prompts you to select which platforms to enable (Discord, Slack, WhatsApp) and generates the corresponding config sections.
+### `lessel plugin add <name>`
 
-### `start`
-
-Starts the lessel pipeline (listeners + API server).
+Install a plugin package and register it in your config:
 
 ```bash
-npx @lessel/cli start
+lessel plugin add @lessel/plugin-logger
 ```
 
-Loads `lessel.config.json` and `.env`, then:
-1. Starts all configured listeners (Discord, Slack, WhatsApp)
-2. Starts the REST API server
-3. Loads and initializes all plugins
+This installs the npm package and adds it to the `plugins` array in `lessel.config.json`.
 
-Logs the active listeners and plugin count on startup.
+### `lessel version`
 
-### `plugin add <name>`
-
-Installs and registers a plugin.
+Show the installed version:
 
 ```bash
-npx @lessel/cli plugin add @lessel/plugin-logger
-npx @lessel/cli plugin add ./my-local-plugin.js
+lessel version
 ```
 
-- Accepts an npm package name or a local file path
-- Adds the entry to `lessel.config.json` `plugins` array
-- Installs the package if it's from npm
-- Validates that the plugin exports the required `name`, `schema`, and `execute` fields
+### `lessel help`
 
-### `plugin list`
-
-Lists all installed plugins from `lessel.config.json`.
+Display usage information:
 
 ```bash
-npx @lessel/cli plugin list
+lessel help
 ```
 
-### `plugin remove <name>`
-
-Removes a plugin from `lessel.config.json`.
+## Quick Reference
 
 ```bash
-npx @lessel/cli plugin remove my-plugin
+lessel start              # Start pipeline (zero-config)
+lessel status             # Show pipeline health
+lessel init               # Scaffold a new project
+lessel plugin add <name>  # Install a plugin
+lessel help               # Show help
+lessel version            # Show version
 ```
 
-Does not uninstall the npm package automatically.
-
-### `--version`
-
-Print CLI version.
+## Zero-Config Quick Start
 
 ```bash
-npx @lessel/cli --version
+# 1. Set your platform token
+export DISCORD_BOT_TOKEN=your_token_here
+
+# 2. Check that lessel detects it
+lessel status
+
+# 3. Start
+lessel start
 ```
 
-## Global Flags
-
-| Flag | Description |
-|------|-------------|
-| `--help` | Show help for a command |
-| `--version` | Print CLI version |
-
-## Examples
-
-```bash
-# Full setup from scratch
-npx @lessel/cli init
-# edit .env to add DISCORD_BOT_TOKEN, SLACK_BOT_TOKEN, etc.
-npx @lessel/cli plugin add @lessel/plugin-logger
-npx @lessel/cli start
-```
-
-```bash
-# Add a local plugin
-npx @lessel/cli plugin add ./my-custom-plugin.js
-npx @lessel/cli start
-```
-
-```bash
-# List installed plugins
-npx @lessel/cli plugin list
-```
-
-## Next Steps
-
-- [Getting Started](getting-started.md) — End-to-end walkthrough
-- [Listeners](listeners.md) — Setup Discord, Slack, and WhatsApp
-- [Your First Plugin](your-first-plugin.md) — Writing plugins
-- [Sending Messages](sending-messages.md) — Send replies to platforms
-- [API Reference](../api-reference.md) — Programmatic API
+lessel handles everything else — no config file, no manual setup.
