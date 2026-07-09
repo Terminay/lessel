@@ -42,7 +42,8 @@
     "packages/sender-slack",
     "packages/sender-whatsapp",
     "packages/cli",
-    "packages/plugin-logger"
+    "packages/plugin-logger",
+    "packages/plugin-registry"
   ],
   "publishConfig": {
     "access": "public"
