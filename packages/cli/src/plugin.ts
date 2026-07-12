@@ -1,7 +1,7 @@
 import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
-import { PluginRegistryClient, generatePluginKeys } from '@lessel/core';
+import { GitHubPluginRegistry, generatePluginChecksum } from '@lessel/core';
 
 export async function runPlugin(args: string[]): Promise<void> {
   const sub = args[0];
@@ -12,7 +12,7 @@ export async function runPlugin(args: string[]): Promise<void> {
       break;
     case 'install':
     case 'i':
-      await installRegistryPlugin(args[1], args[2]);
+      await installPlugin(args[1], args[2]);
       break;
     case 'search':
       await searchRegistry(args.slice(1).join(' '));
@@ -22,9 +22,6 @@ export async function runPlugin(args: string[]): Promise<void> {
       break;
     case 'list':
       await listInstalledPlugins();
-      break;
-    case 'register':
-      await registerAuthor(args[1]);
       break;
     default:
       printPluginHelp();
@@ -36,11 +33,10 @@ function printPluginHelp(): void {
   console.log(`lessel plugin commands:
 
   plugin add <npm-package>         Install an npm plugin package
-  plugin install <name> [version]  Install a plugin from the registry
-  plugin search <query>            Search the plugin registry
-  plugin publish [path]            Publish a plugin to the registry
+  plugin install <name> [version]  Install a plugin from the community registry
+  plugin search <query>            Search the community plugin registry
+  plugin publish [path]            Prepare a plugin for publishing (via PR)
   plugin list                      List installed plugins
-  plugin register <author-name>    Get an API key for publishing
 `);
 }
 
@@ -67,7 +63,6 @@ async function addPlugin(pkgName?: string): Promise<void> {
   try {
     config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
   } catch {
-    // If no config, create one
     config = { plugins: [] };
   }
 
@@ -82,16 +77,16 @@ async function addPlugin(pkgName?: string): Promise<void> {
 }
 
 /**
- * Install a plugin from the community registry.
+ * Install a plugin from the GitHub community registry.
  */
-async function installRegistryPlugin(name?: string, version?: string): Promise<void> {
+async function installPlugin(name?: string, version?: string): Promise<void> {
   if (!name) {
     console.error('[lessel] Usage: lessel plugin install <name> [version]');
     process.exit(1);
   }
 
-  const registry = new PluginRegistryClient();
-  console.log(`[lessel] Fetching "${name}" from registry...`);
+  const registry = new GitHubPluginRegistry();
+  console.log(`[lessel] Fetching "${name}" from community registry...`);
 
   try {
     const pluginDir = await registry.installPlugin(name, version);
@@ -121,27 +116,30 @@ async function installRegistryPlugin(name?: string, version?: string): Promise<v
 }
 
 /**
- * Search the plugin registry.
+ * Search the community plugin registry (GitHub-based).
  */
 async function searchRegistry(query?: string): Promise<void> {
-  const registry = new PluginRegistryClient();
-  console.log(`[lessel] Searching registry for "${query || ''}"...`);
+  const registry = new GitHubPluginRegistry();
+  console.log(`[lessel] Searching community registry for "${query || 'all plugins'}"...`);
 
   try {
-    const result = await registry.search(query || '', { limit: 20 });
+    const results = await registry.search(query || '');
 
-    if (result.data.length === 0) {
+    if (results.length === 0) {
       console.log('[lessel] No plugins found.');
+      console.log('  Browse the registry: https://github.com/Terminay/lessel-plugins');
       return;
     }
 
     console.log();
-    for (const plugin of result.data) {
-      console.log(`  ${plugin.name.padEnd(25)} v${plugin.latestVersion.padEnd(12)} ${plugin.description.slice(0, 60)}`);
-      console.log(`  ${' '.repeat(25)}  Author: ${plugin.author.name}  ⭐ ${plugin.totalDownloads} downloads`);
+    for (const plugin of results) {
+      const tags = (plugin.tags || []).join(', ');
+      console.log(`  ${plugin.name.padEnd(25)} v${plugin.latestVersion.padEnd(10)} ${plugin.description.slice(0, 55)}`);
+      console.log(`  ${' '.repeat(25)}  Author: ${plugin.author}  ${tags ? '🏷️ ' + tags : ''}`);
       console.log();
     }
-    console.log(`[lessel] Showing ${result.data.length} of ${result.pagination.total} results`);
+    console.log(`[lessel] Showing ${results.length} plugin(s)`);
+    console.log('  Browse all: https://terminay.github.io/lessel-plugins');
   } catch (err: any) {
     console.error(`[lessel] ❌ Search failed: ${err.message}`);
     process.exit(1);
@@ -149,35 +147,32 @@ async function searchRegistry(query?: string): Promise<void> {
 }
 
 /**
- * Publish a plugin to the registry.
- * Expects a path to a plugin directory or file.
+ * Prepare a plugin for publishing to the community registry.
+ * Creates the proper structure and opens a PR link.
  */
 async function publishPlugin(pluginPath?: string): Promise<void> {
   const targetPath = pluginPath || process.cwd();
   const fullPath = path.resolve(targetPath);
 
   // Read plugin code
-  let code: Buffer;
+  let code: string;
   let name: string = 'unknown';
   let version: string = '1.0.0';
   let description = '';
 
-  // Try reading as a single .js file
   if (fullPath.endsWith('.js') && fs.existsSync(fullPath)) {
-    code = fs.readFileSync(fullPath);
+    code = fs.readFileSync(fullPath, 'utf-8');
     name = path.basename(fullPath, '.js');
     version = '1.0.0';
   } else {
-    // Try directory with index.js
     const indexFile = path.join(fullPath, 'index.js');
     if (!fs.existsSync(indexFile)) {
       console.error(`[lessel] ❌ Plugin file not found at ${fullPath}`);
       process.exit(1);
     }
-    code = fs.readFileSync(indexFile);
+    code = fs.readFileSync(indexFile, 'utf-8');
     name = path.basename(fullPath);
 
-    // Try reading package.json
     const pkgPath = path.join(fullPath, 'package.json');
     if (fs.existsSync(pkgPath)) {
       try {
@@ -191,64 +186,46 @@ async function publishPlugin(pluginPath?: string): Promise<void> {
     }
   }
 
-  // Check for registry API key
-  const apiKey = process.env.LESSEL_REGISTRY_KEY;
-  if (!apiKey) {
-    console.error('[lessel] ❌ No registry API key found. Set LESSEL_REGISTRY_KEY or run "lessel plugin register <name>"');
-    process.exit(1);
-  }
+  const checksum = generatePluginChecksum(code);
 
-  // Check for signing key
-  const signKeyFile = path.join(process.cwd(), '.lessel-keys.json');
-  let author: { name: string; publicKey: string };
-  try {
-    const keys = JSON.parse(fs.readFileSync(signKeyFile, 'utf-8'));
-    // Verify the API key matches
-    author = { name: keys.authorName, publicKey: keys.publicKey };
-    console.log(`[lessel] Using signing key for "${author.name}"`);
-  } catch {
-    // Auto-generate keys (not ideal for production, but works for dev)
-    console.log('[lessel] No .lessel-keys.json found. Generating new keys...');
-    const keys = generatePluginKeys();
-    console.log(`[lessel] Generated keys (save these):`);
-    console.log(`  Public key (Ed25519):  ${keys.publicKey}`);
-    console.log(`  Private key: ${keys.privateKey}`);
-    console.log();
+  // Create the plugin structure locally
+  const outputDir = path.join(process.cwd(), '.lessel-publish', name);
+  const versionDir = path.join(outputDir, version);
+  fs.mkdirSync(versionDir, { recursive: true });
 
-    const authorName = process.env.LESSEL_AUTHOR || process.env.USER || 'anonymous';
-    author = { name: authorName, publicKey: keys.publicKey };
+  // Write index.js
+  fs.writeFileSync(path.join(versionDir, 'index.js'), code);
 
-    // Save keys
-    fs.writeFileSync(signKeyFile, JSON.stringify({
-      authorName: author.name,
-      publicKey: author.publicKey,
-      privateKey: keys.privateKey,
-    }, null, 2));
-    console.log(`[lessel] Keys saved to ${signKeyFile}`);
-  }
+  // Write plugin.json
+  const manifest = {
+    name,
+    description: description || 'A lessel plugin',
+    author: process.env.USER || 'your-github-username',
+    repository: '',
+    schema: ['*'],
+    engines: { lessel: '>=0.1.0' },
+    tags: [],
+    versions: {
+      [version]: {
+        checksum,
+        published: new Date().toISOString().split('T')[0],
+        size: code.length,
+      },
+    },
+  };
+  fs.writeFileSync(path.join(outputDir, 'plugin.json'), JSON.stringify(manifest, null, 2));
 
-  // Get registry URL
-  const registryUrl = process.env.LESSEL_REGISTRY_URL;
-  const registry = new PluginRegistryClient(registryUrl, apiKey);
-
-  console.log(`[lessel] Publishing "${name}" v${version}...`);
-
-  try {
-    const result = await registry.publishPlugin({
-      name,
-      version,
-      description,
-      author,
-      schema: ['*'],
-      engines: { lessel: '>=0.1.0' },
-      tags: [],
-      code,
-    });
-    console.log(`[lessel] ✅ Plugin "${result.plugin}" v${result.version} published!`);
-  } catch (err: any) {
-    console.error(`[lessel] ❌ Publish failed: ${err.message}`);
-    process.exit(1);
-  }
+  console.log(`[lessel] ✅ Plugin "${name}" v${version} prepared for publishing`);
+  console.log(`  Output: ${outputDir}`);
+  console.log();
+  console.log('To publish to the community registry:');
+  console.log(`  1. Fork: https://github.com/Terminay/lessel-plugins/fork`);
+  console.log(`  2. Copy the plugin directory:`);
+  console.log(`     cp -r ${outputDir} <fork>/plugins/${name}`);
+  console.log(`  3. Commit and push to your fork`);
+  console.log(`  4. Create a Pull Request to Terminay/lessel-plugins`);
+  console.log();
+  console.log('The registry will auto-build and deploy on merge.');
 }
 
 /**
@@ -296,56 +273,7 @@ async function listInstalledPlugins(): Promise<void> {
   console.log();
   for (const p of plugins) {
     const isRegistry = p.startsWith('plugins/') || p.startsWith('plugins\\');
-    const source = isRegistry ? '📦 Registry' : '📦 npm';
+    const source = isRegistry ? '📦 Community Registry' : '📦 npm';
     console.log(`  ${p.padEnd(30)} ${source}`);
-  }
-}
-
-/**
- * Register as an author and get an API key.
- */
-async function registerAuthor(authorName?: string): Promise<void> {
-  if (!authorName) {
-    console.error('[lessel] Usage: lessel plugin register <author-name>');
-    process.exit(1);
-  }
-
-  // Generate or load signing keys
-  const signKeyFile = path.join(process.cwd(), '.lessel-keys.json');
-  let publicKey: string;
-
-  try {
-    const keys = JSON.parse(fs.readFileSync(signKeyFile, 'utf-8'));
-    publicKey = keys.publicKey;
-    console.log(`[lessel] Using existing signing key for "${keys.authorName}"`);
-  } catch {
-    console.log('[lessel] Generating new signing keys...');
-    const keys = generatePluginKeys();
-    publicKey = keys.publicKey;
-    fs.writeFileSync(signKeyFile, JSON.stringify({
-      authorName,
-      publicKey: keys.publicKey,
-      privateKey: keys.privateKey,
-    }, null, 2));
-    console.log(`[lessel] Keys saved to ${signKeyFile}`);
-  }
-
-  const registry = new PluginRegistryClient();
-  console.log(`[lessel] Registering "${authorName}" with the registry...`);
-
-  try {
-    const result = await registry.registerAuthor(authorName, publicKey);
-    console.log();
-    console.log(`[lessel] ✅ Registration successful!`);
-    console.log(`[lessel] API Key: ${result.apiKey}`);
-    console.log();
-    console.log('  Save this key! Set it as an environment variable:');
-    console.log(`  export LESSEL_REGISTRY_KEY=${result.apiKey}`);
-    console.log();
-    console.log('  Then publish your plugin:');
-    console.log('  lessel plugin publish ./path/to/plugin');
-  } catch (err: any) {
-    console.error(`[lessel] ❌ Registration failed: ${err.message}`);
-    process.exit(1);
   }
 }
