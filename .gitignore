@@ -56,3 +56,8 @@ local.properties
 *.hprof
 
 packages/lessel
+
+# Registry data (for self-hosted plugin registry)
+registry-data/
+plugins/
+.lessel-keys.json

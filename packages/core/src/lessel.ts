@@ -307,6 +307,12 @@ export async function bootstrap(options: BootstrapOptions = {}): Promise<Bootstr
     pipeline.loadPlugins(autoPlugins);
   }
 
+  // Auto-scan local plugins/ directory for registry-installed plugins
+  const localPlugins = pipeline.getPluginLoader().scanLocalPluginsDir();
+  if (localPlugins.length > 0) {
+    pipeline.loadPlugins(localPlugins);
+  }
+
   // ── 7. Register listeners for each detected platform ──
   for (const platform of detectedPlatforms) {
     await registerListenerForPlatform(platform, pipeline, config);
