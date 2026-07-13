@@ -166,3 +166,25 @@ If no config file exists, lessel auto-generates one with catch-all schemas for e
 - [Sending Messages](sending-messages.md) — Reply to messages
 - [Understanding Schemas](schemas.md) — Learn about filtering
 - [Configuration](configuration.md) — Full config reference
+
+## Plugin Registry
+
+lessel has a community plugin registry powered by GitHub. No servers to run — just search and install:
+
+```bash
+# Search for plugins
+npx lessel plugin search sentiment
+
+# Install a plugin
+npx lessel plugin install example-logger
+
+# List what you have installed
+npx lessel plugin list
+
+# Prepare your own plugin for publishing
+npx lessel plugin publish ./my-plugin
+```
+
+Browse the full catalog: **[https://terminay.github.io/lessel-plugins](https://terminay.github.io/lessel-plugins)**
+
+To submit a plugin, fork [lessel-plugins](https://github.com/Terminay/lessel-plugins), add your plugin under `plugins/<name>/`, and open a PR. The registry auto-builds on merge.
