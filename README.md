@@ -81,6 +81,27 @@ flowchart LR
 
 ---
 
+## Plugin Registry
+
+lessel has a community plugin registry powered by GitHub. Browse, search, and install plugins:
+
+```bash
+# Search available plugins
+npx lessel plugin search sentiment
+
+# Install a plugin
+npx lessel plugin install example-logger
+
+# Prepare your plugin for publishing
+npx lessel plugin publish ./path/to/plugin
+```
+
+**Browse the registry:** [https://terminay.github.io/lessel-plugins](https://terminay.github.io/lessel-plugins)
+
+**Submit plugins via PR:** [https://github.com/Terminay/lessel-plugins](https://github.com/Terminay/lessel-plugins)
+
+---
+
 ## Install via npm (no clone needed)
 
 ```bash

@@ -34,9 +34,29 @@ module.exports = {
 | Plugin system | Install `@lessel/plugin-*` packages that run inside the pipeline |
 | Extensible | Build your own listeners, senders, and plugins |
 
+## Plugin Registry
+
+lessel has a community plugin registry powered by GitHub. Browse, search, and install plugins without running any servers.
+
+```bash
+# Search available plugins
+npx lessel plugin search sentiment
+
+# Install a plugin
+npx lessel plugin install example-logger
+
+# Prepare your plugin for publishing
+npx lessel plugin publish ./path/to/plugin
+```
+
+**Browse the registry:** [https://terminay.github.io/lessel-plugins](https://terminay.github.io/lessel-plugins)
+
+**Submit plugins via PR:** [https://github.com/Terminay/lessel-plugins](https://github.com/Terminay/lessel-plugins)
+
 ## Next Steps
 
 - [Getting Started](guides/getting-started.md) — Install and run lessel
 - [Your First Plugin](guides/your-first-plugin.md) — Write a plugin from scratch
 - [Understanding Schemas](guides/schemas.md) — Learn how filtering works
+- [Publishing Plugins](guides/publishing-plugins.md) — Publish to the community registry
 - [API Reference](api-reference.md) — Auto-generated from source code
