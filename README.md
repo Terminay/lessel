@@ -17,7 +17,6 @@
 - [Architecture](#architecture)
 - [Install](#install-via-npm-no-clone-needed)
 - [Quick Start](#quick-start)
-- [Tutorial](#tutorial-discord--whatsapp)
 - [API Endpoints](#api-endpoints)
 - [Plugins](#plugins)
 - [Ecosystem](#ecosystem)
@@ -119,16 +118,10 @@ This installs:
 - `@lessel/sender-whatsapp` — WhatsApp sender
 - `@lessel/cli` — command-line tool
 
-**Note:** Plugins are NOT included. Install them separately:
-```bash
-npm install @lessel/plugin-logger
-```
-
 Or use the CLI directly without installing:
 ```bash
 npx @lessel/cli init        # scaffolds lessel.config.json + .env
 npx @lessel/cli start       # starts the pipeline + API
-npx @lessel/cli plugin add @lessel/plugin-logger
 ```
 
 ---
@@ -213,7 +206,7 @@ Authorisation: Bearer lsl_<your_api_key>
 
 ## Plugins
 
-lessel plugins (`@lessel/plugin-*`) are executers that run **inside** the pipeline — no external server or polling needed.
+lessel plugins (`@lessel/cli plugin install <plugin-name>`) are executers that run **inside** the pipeline, no external server or polling needed.
 
 ```javascript
 // my-plugin.js
