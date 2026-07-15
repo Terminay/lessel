@@ -108,9 +108,9 @@ async function installPlugin(name?: string, version?: string): Promise<void> {
       console.log(`[lessel] Registered "${ref}" in lessel.config.json`);
     }
 
-    console.log(`[lessel] ✅ Plugin "${name}" installed successfully`);
+    console.log(`[lessel] Plugin "${name}" installed successfully`);
   } catch (err: any) {
-    console.error(`[lessel] ❌ Failed to install plugin: ${err.message}`);
+    console.error(`[lessel] Failed to install plugin: ${err.message}`);
     process.exit(1);
   }
 }
@@ -141,7 +141,7 @@ async function searchRegistry(query?: string): Promise<void> {
     console.log(`[lessel] Showing ${results.length} plugin(s)`);
     console.log('  Browse all: https://terminay.github.io/lessel-plugins');
   } catch (err: any) {
-    console.error(`[lessel] ❌ Search failed: ${err.message}`);
+    console.error(`[lessel] Search failed: ${err.message}`);
     process.exit(1);
   }
 }
@@ -167,7 +167,7 @@ async function publishPlugin(pluginPath?: string): Promise<void> {
   } else {
     const indexFile = path.join(fullPath, 'index.js');
     if (!fs.existsSync(indexFile)) {
-      console.error(`[lessel] ❌ Plugin file not found at ${fullPath}`);
+      console.error(`[lessel] Plugin file not found at ${fullPath}`);
       process.exit(1);
     }
     code = fs.readFileSync(indexFile, 'utf-8');
@@ -215,7 +215,7 @@ async function publishPlugin(pluginPath?: string): Promise<void> {
   };
   fs.writeFileSync(path.join(outputDir, 'plugin.json'), JSON.stringify(manifest, null, 2));
 
-  console.log(`[lessel] ✅ Plugin "${name}" v${version} prepared for publishing`);
+  console.log(`[lessel] Plugin "${name}" v${version} prepared for publishing`);
   console.log(`  Output: ${outputDir}`);
   console.log();
   console.log('To publish to the community registry:');

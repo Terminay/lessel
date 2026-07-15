@@ -173,16 +173,16 @@ lessel has a community plugin registry powered by GitHub. No servers to run — 
 
 ```bash
 # Search for plugins
-npx lessel plugin search sentiment
+npx @lessel/cli plugin search sentiment
 
 # Install a plugin
-npx lessel plugin install example-logger
+npx @lessel/cli plugin install example-logger
 
 # List what you have installed
-npx lessel plugin list
+npx @lessel/cli plugin list
 
 # Prepare your own plugin for publishing
-npx lessel plugin publish ./my-plugin
+npx @lessel/cli plugin publish ./my-plugin
 ```
 
 Browse the full catalog: **[https://terminay.github.io/lessel-plugins](https://terminay.github.io/lessel-plugins)**

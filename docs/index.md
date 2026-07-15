@@ -40,13 +40,13 @@ lessel has a community plugin registry powered by GitHub. Browse, search, and in
 
 ```bash
 # Search available plugins
-npx lessel plugin search sentiment
+npx @lessel/cli plugin search sentiment
 
 # Install a plugin
-npx lessel plugin install example-logger
+npx @lessel/cli plugin install example-logger
 
 # Prepare your plugin for publishing
-npx lessel plugin publish ./path/to/plugin
+npx @lessel/cli plugin publish ./path/to/plugin
 ```
 
 **Browse the registry:** [https://terminay.github.io/lessel-plugins](https://terminay.github.io/lessel-plugins)
