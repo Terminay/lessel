@@ -5,9 +5,12 @@
 ![Node.js >=18](https://img.shields.io/badge/node-%3E%3D18-brightgreen)
 ![npm](https://img.shields.io/npm/v/lessel-kit?label=lessel-kit)
 ![GitHub issues](https://img.shields.io/github/issues/Terminay/lessel)
-![GitHub stars](https://img.shields.io/github/stars/Terminay/lessel)
 
-**lessel** (from "vessel") is a general-purpose, open-source message pipeline framework. It connects to platforms like **Discord**, **WhatsApp**, and **Slack**, listens for messages that match your rules, stores them, and exposes them through a REST API for your own executers (plugins) to process.
+<a href="https://github.com">
+  <img src="https://img.shields.io/github/stars/Terminay/lessel?style=flat-square&logo=github" height="50" width="150">
+</a>
+
+**lessel** (from "vessel") is a general-purpose, open-source message pipeline framework. It connects to platforms like **Discord**, **WhatsApp**, and **Slack**, listens for messages that match your rules, stores them, and exposes them through a REST API for your own executors (plugins) to process.
 
 ---
 
